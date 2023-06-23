@@ -72,64 +72,11 @@ def read_data():
     data_loader_val = DataLoader(dataset=dataset_val, batch_size=256, shuffle=False)
     return dataset_train, dataset_val, data_loader_train, data_loader_val
 
-dataset_train = torchvision.datasets.CIFAR10(root='../data/exp03', train=True, download=False,
-                                                 transform=torchvision.transforms.ToTensor())
-dataset_val = torchvision.datasets.CIFAR10(root='../data/exp03', train=False, download=False,
-                                               transform=torchvision.transforms.ToTensor())
-data_loader_train = DataLoader(dataset=dataset_train, batch_size=256, shuffle=True)
-data_loader_val = DataLoader(dataset=dataset_val, batch_size=256, shuffle=False)
-
-# 定义全局变量
-#modelPath = './model.pkl'
-batchSize = 5
-nEpochs = 40
-
-model=NeuralNetwork()
-criterion = nn.CrossEntropyLoss()  # 交叉熵损失
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-  # 随机梯度下降
-iter = 0
-num = 1
-    # 训练网络
-model.train()
-for epoch in range(nEpochs):  # loop over the dataset multiple times
-        running_loss = 0.0
-        for i, data in enumerate(data_loader_train, 0):
-            iter = iter + 1
-            # 取数据
-            inputs, labels = data
-            inputs, labels = inputs, labels # 将输入和目标在每一步都送入GPU
-            # 将梯度置零
-            optimizer.zero_grad()
-            # 训练
-            outputs = model(inputs)
-            loss = criterion(outputs, labels)
-            loss.backward()   # 反向传播
-            optimizer.step()  # 优化
-            # 统计数据
-            running_loss += loss.item()
-            if i % 100 == 99:    # 每 batchsize * 100 张图片，打印一次
-                print('epoch: %d\t batch: %d\t loss: %.6f' % (epoch + 1, i + 1, running_loss / (batchSize*100)))
-                running_loss = 0.0
-                num=num + 1
-
-# 使用测试数据测试网络
-
-correct = 0
-total = 0
-with torch.no_grad():  # 训练集中不需要反向传播
-        for data in data_loader_val:
-            images, labels = data
-            images, labels = images, labels # 将输入和目标在每一步都送入GPU
-            outputs =model(images)
-            _, predicted = torch.max(outputs.data, 1)  # 返回每一行中最大值的那个元素，且返回其索引
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-print('Accuracy of the network on the 10000 test images: %d %%' % (100 * correct / total))
 
 
 
-torch.save(model.state_dict(), 'C:/Users/Lenovo/convolution-neural-network-y1zqianbb/pth/model.pth')
+
+
 
 def main():
     model = NeuralNetwork()  # 若有参数则传入参数
