@@ -3,7 +3,6 @@ import os
 #os.system("sudo pip3 install torch")
 #os.system("sudo pip3 install torchvision")
 #########
-#haha
 
 import torch
 import torch.nn as nn
@@ -72,11 +71,6 @@ def read_data():
     data_loader_train = DataLoader(dataset=dataset_train, batch_size=256, shuffle=True)
     data_loader_val = DataLoader(dataset=dataset_val, batch_size=256, shuffle=False)
     return dataset_train, dataset_val, data_loader_train, data_loader_val
-
-
-
-
-
 
 
 def main():
